@@ -1,0 +1,33 @@
+/* Embed overrides — strips chrome for iframe embedding */
+.app-header {
+  display: none !important;
+}
+
+.election-info {
+  display: none !important;
+}
+
+body {
+  background: #fff;
+}
+
+.container {
+  max-width: 100%;
+  padding: 8px 12px;
+}
+
+.search-section {
+  margin-top: 8px;
+  box-shadow: none;
+  border: 1px solid var(--color-border);
+}
+
+#map {
+  height: 380px;
+}
+
+.results-panel,
+.outside-panel {
+  box-shadow: none;
+  border: 1px solid var(--color-border);
+}

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>DCPC Election District Map</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Raleway:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin="">
+
+  <!-- App CSS -->
+  <link rel="stylesheet" href="css/style.css?v=7">
+  <link rel="stylesheet" href="css/embed-overrides.css">
+</head>
+<body class="embed-mode">
+
+  <main class="container">
+
+    <!-- Embed explainer -->
+    <div class="embed-explainer">
+      Find your Downtown San Diego district and which DCPC seats you can vote for or run for in the March 18, 2026 election.
+    </div>
+
+    <!-- Init loading -->
+    <div id="init-loading" hidden>
+      <div class="search-loading" style="justify-content:center; padding: 20px 0;">
+        <span class="spinner"></span> Loading election data...
+      </div>
+    </div>
+
+    <!-- Init error -->
+    <div class="init-error" id="init-error" hidden role="alert">
+      <p>Unable to load election data. Please refresh the page or contact the site administrator.</p>
+    </div>
+
+    <!-- Search -->
+    <section class="search-section" aria-label="Address lookup">
+      <form id="search-form" novalidate>
+        <label for="search-input" class="sr-only">Enter your street address</label>
+        <div class="search-row">
+          <input type="text" id="search-input"
+                 placeholder="Enter your street address (e.g., 350 10th Ave)"
+                 autocomplete="street-address"
+                 aria-describedby="search-hint">
+          <button type="submit" class="search-button" id="search-btn">
+            Look Up My District
+          </button>
+        </div>
+        <p class="search-hint" id="search-hint">
+          San Diego, CA is assumed. Enter a street address in the Downtown planning area.
+        </p>
+        <div class="search-error" hidden aria-live="polite"></div>
+        <div class="search-loading" hidden aria-live="polite">
+          <span class="spinner"></span> Looking up your address...
+        </div>
+      </form>
+    </section>
+
+    <!-- Map -->
+    <section class="map-section" aria-label="District map">
+      <div id="map" role="img" aria-label="Interactive map of DCPC neighborhood districts"></div>
+    </section>
+
+    <!-- Results Panel -->
+    <section class="results-panel" id="results-panel" hidden aria-label="Your district results" aria-live="polite">
+
+      <div class="district-badge" id="district-badge"></div>
+
+      <div class="shared-seat-note" id="shared-seat-note" hidden></div>
+
+      <div class="selector-tabs" role="tablist" aria-label="Select your type">
+        <button class="selector-tab active" data-type="resident"
+                role="tab" aria-selected="true">
+          I'm a Resident
+        </button>
+        <button class="selector-tab" data-type="business"
+                role="tab" aria-selected="false">
+          I'm a Business
+        </button>
+      </div>
+
+      <div class="seats-section" id="ballot-seats-section">
+        <h2 id="ballot-section-heading">Seats You Can Run or Vote For in 2026</h2>
+        <div id="ballot-seats-container"></div>
+      </div>
+
+      <div class="seats-section" id="current-members-section">
+        <h2>Current Board Members</h2>
+        <div id="current-members-container"></div>
+      </div>
+
+      <div class="at-large-note">
+        At-Large seats are open to all Downtown residents, businesses, and community
+        organizations regardless of neighborhood. 3 of the 5 At-Large seats are reserved
+        for Community Organizations serving the Downtown planning area.
+      </div>
+
+      <div class="election-countdown" id="election-countdown" hidden></div>
+
+      <div class="cta-section">
+        <a href="#" class="cta-button cta-button-outline" id="candidate-reg-btn" hidden>
+          Register as a Candidate
+        </a>
+        <a href="#" class="cta-button" id="voter-reg-btn" hidden>
+          Register to Vote
+        </a>
+      </div>
+    </section>
+
+    <!-- Outside District Panel -->
+    <section class="outside-panel" id="outside-panel" hidden aria-live="polite">
+      <p>
+        This address appears to be outside the Downtown planning districts.
+        You may still be eligible for At-Large seats.
+        Contact DCPC to confirm your district.
+      </p>
+      <div id="atlarge-only-container"></div>
+    </section>
+
+  </main>
+
+  <!-- CDN Scripts -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+          crossorigin=""></script>
+  <script src="https://unpkg.com/leaflet-omnivore@0.3.4/leaflet-omnivore.min.js"></script>
+  <script src="https://unpkg.com/@turf/turf@7/turf.min.js"></script>
+  <script src="https://unpkg.com/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+
+  <!-- App Script -->
+  <script src="js/app.js?v=7"></script>
+
+</body>
+</html>
