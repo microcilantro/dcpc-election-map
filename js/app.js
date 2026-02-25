@@ -342,7 +342,7 @@
 
     return {
       ballotSeats: all.filter(function (s) { return s.on_ballot; }),
-      currentMembers: all.filter(function (s) { return !s.on_ballot || (!s.vacant && s.current_member); })
+      currentMembers: all
     };
   }
 
@@ -754,7 +754,7 @@
 
     var seats = config.seats.filter(function (s) { return s.type === 'at-large'; });
     var ballotSeats = seats.filter(function (s) { return s.on_ballot; });
-    var currentMembers = seats.filter(function (s) { return !s.on_ballot || (!s.vacant && s.current_member); });
+    var currentMembers = seats;
 
     if (phase !== 'post-election' && ballotSeats.length > 0) {
       var ballotHeading = phase === 'voting-only'
@@ -768,7 +768,7 @@
     }
 
     if (currentMembers.length > 0) {
-      var h3b = createElement('h3', 'seats-subsection-heading', 'Current At-Large Board Members');
+      var h3b = createElement('h3', 'seats-subsection-heading', 'Your Current At-Large Board Members');
       container.appendChild(h3b);
       var grid2 = createElement('div', 'seats-grid');
       currentMembers.forEach(function (s) { grid2.appendChild(createSeatCard(s, 'current')); });
