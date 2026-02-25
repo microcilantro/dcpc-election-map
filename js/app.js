@@ -195,8 +195,21 @@
       .trim();
   }
 
+  function normalizeOrdinals(address) {
+    var map = {
+      'first': '1st', 'second': '2nd', 'third': '3rd', 'fourth': '4th',
+      'fifth': '5th', 'sixth': '6th', 'seventh': '7th', 'eighth': '8th',
+      'ninth': '9th', 'tenth': '10th', 'eleventh': '11th', 'twelfth': '12th'
+    };
+    return address.replace(
+      /\b(first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth)\b/gi,
+      function (match) { return map[match.toLowerCase()]; }
+    );
+  }
+
   function normalizeAddress(address) {
     var stripped = stripUnitFromAddress(address);
+    stripped = normalizeOrdinals(stripped);
     var lower = stripped.toLowerCase();
     if (lower.indexOf('san diego') === -1 && lower.indexOf(', sd') === -1) {
       stripped += ', San Diego, CA';
@@ -233,7 +246,7 @@
       })
       .then(function (results) {
         if (!results || results.length === 0) {
-          throw new Error('Address not found. Please check the address and try again.');
+          throw new Error('Address not found. Please check the address and try again, or click directly on the map to select your district.');
         }
         return {
           lat: parseFloat(results[0].lat),
@@ -242,7 +255,7 @@
         };
       })
       .catch(function (err) {
-        if (err.message.indexOf('Address not found') === 0 ||
+        if (err.message.indexOf('Address not found') !== -1 ||
             err.message.indexOf('Geocoding service') === 0) {
           throw err;
         }
@@ -263,7 +276,7 @@
       .then(function (response) { return response.json(); })
       .then(function (data) {
         if (data.status !== 'OK' || !data.results || data.results.length === 0) {
-          throw new Error('Address not found. Please check the address and try again.');
+          throw new Error('Address not found. Please check the address and try again, or click directly on the map to select your district.');
         }
         var loc = data.results[0].geometry.location;
         return {
@@ -402,6 +415,7 @@
     var candidateBtn = document.getElementById('candidate-reg-btn');
     var voterBtn = document.getElementById('voter-reg-btn');
     var countdownEl = document.getElementById('election-countdown');
+    var noteEl = document.getElementById('inperson-voting-note');
     var year = (config && config.election_year) || '';
 
     if (phase === 'post-election') {
@@ -409,6 +423,7 @@
       if (candidateBtn) candidateBtn.hidden = true;
       if (voterBtn) voterBtn.hidden = true;
       if (countdownEl) countdownEl.hidden = true;
+      if (noteEl) noteEl.hidden = true;
 
     } else if (phase === 'voting-only') {
       if (headingEl) headingEl.textContent = 'Seats You Can Vote for in ' + year;
@@ -432,6 +447,14 @@
           countdownEl.hidden = false;
         } else {
           countdownEl.hidden = true;
+        }
+      }
+      if (noteEl) {
+        if (config.in_person_voting_note) {
+          noteEl.textContent = config.in_person_voting_note;
+          noteEl.hidden = false;
+        } else {
+          noteEl.hidden = true;
         }
       }
 
@@ -475,6 +498,14 @@
           countdownEl.hidden = false;
         } else {
           countdownEl.hidden = true;
+        }
+      }
+      if (noteEl) {
+        if (config.in_person_voting_note) {
+          noteEl.textContent = config.in_person_voting_note;
+          noteEl.hidden = false;
+        } else {
+          noteEl.hidden = true;
         }
       }
     }
