@@ -342,7 +342,7 @@
 
     return {
       ballotSeats: all.filter(function (s) { return s.on_ballot; }),
-      currentMembers: all.filter(function (s) { return !s.vacant && s.current_member; })
+      currentMembers: all.filter(function (s) { return !s.on_ballot || (!s.vacant && s.current_member); })
     };
   }
 
@@ -754,7 +754,7 @@
 
     var seats = config.seats.filter(function (s) { return s.type === 'at-large'; });
     var ballotSeats = seats.filter(function (s) { return s.on_ballot; });
-    var currentMembers = seats.filter(function (s) { return !s.vacant && s.current_member; });
+    var currentMembers = seats.filter(function (s) { return !s.on_ballot || (!s.vacant && s.current_member); });
 
     if (phase !== 'post-election' && ballotSeats.length > 0) {
       var ballotHeading = phase === 'voting-only'
