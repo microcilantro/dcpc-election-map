@@ -9,7 +9,7 @@
     MAP_ZOOM: 14,
     NOMINATIM_URL: 'https://nominatim.openstreetmap.org/search',
     DATA_KML: './data/districts.kml',
-    DATA_CONFIG: 'https://dcpc-election-config.garyhewitt.workers.dev/api/config',
+    DATA_CONFIG: './data/election-config.json',
     GOOGLE_MAPS_API_KEY: null, // set to enable Google geocoding
     // Bounding box for downtown San Diego (used to constrain geocoding)
     VIEWBOX: '-117.185,32.732,-117.145,32.700',
