@@ -1,0 +1,44 @@
+/* Survey overrides — compact layout for Jotform iframe embedding */
+
+/* Hide standalone chrome */
+.app-header {
+  display: none !important;
+}
+
+.election-info {
+  display: none !important;
+}
+
+body.survey-mode {
+  background: #fff;
+}
+
+.survey-mode .container {
+  max-width: 100%;
+  padding: 8px 12px;
+}
+
+.survey-mode .search-section {
+  margin-top: 4px;
+  box-shadow: none;
+  border: 1px solid var(--color-border);
+}
+
+.survey-mode #map {
+  height: 340px;
+}
+
+.survey-mode .results-panel,
+.survey-mode .outside-panel {
+  box-shadow: none;
+  border: 1px solid var(--color-border);
+}
+
+/* Hide elements not needed in survey context */
+.survey-mode .at-large-note,
+.survey-mode .election-countdown,
+.survey-mode .cta-section,
+.survey-mode .inperson-voting-note,
+.survey-mode #current-members-section {
+  display: none !important;
+}
